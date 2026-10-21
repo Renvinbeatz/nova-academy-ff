@@ -1,0 +1,11 @@
+export const lessons = [
+ {id:1,title:'Baixar CapCut e interface',short:'O primeiro passo',description:'Prepare seu editor e conheça as ferramentas que você vai usar para transformar uma gameplay em conteúdo.',topics:['Instalação e configuração do CapCut','Interface, linha do tempo e ferramentas','Criação do primeiro projeto vertical'],exercise:'Abra o CapCut, crie um projeto em 9:16 e importe uma gameplay para começar.'},
+ {id:2,title:'Gravação e cortes dinâmicos',short:'Da gameplay ao corte',description:'Escolha os melhores momentos da partida e construa uma base que prende a atenção desde os primeiros segundos.',topics:['Gravação de gameplay de Free Fire','Seleção dos melhores momentos','Cortes, ritmo e remoção de pausas'],exercise:'Separe uma gameplay e monte uma sequência curta, retirando pausas e mantendo os melhores momentos.'},
+ {id:3,title:'Áudios e sincronização',short:'Dê voz ao seu conteúdo',description:'Combine narração, trilha e gameplay para criar uma mensagem clara e com personalidade.',topics:['Importação de narração e vozes do editor','Sincronização de áudio e imagem','Volume da voz, música e efeitos'],exercise:'Adicione uma narração divulgando o diário e sincronize os cortes com as falas.'},
+ {id:4,title:'Edição dinâmica',short:'Faça o vídeo acontecer',description:'Dê acabamento à sua edição com legendas, movimento e efeitos que ajudam a contar a mensagem.',topics:['Legendas e destaques na tela','Zooms, transições e efeitos','Identidade visual e chamada para ação'],exercise:'Finalize o vídeo com legendas, alguns destaques e uma chamada clara para conhecer o diário.'},
+ {id:5,title:'Exportação e postagem com SEO',short:'Pronto para o próximo post',description:'Exporte com qualidade e prepare título, descrição e palavras-chave para publicar seu vídeo.',topics:['Formato, resolução e exportação','Título, descrição e palavras-chave','Revisão e publicação do vídeo'],exercise:'Exporte seu vídeo em 1080 × 1920 e escreva uma descrição com um gancho e uma chamada para ação.'}
+];
+export type LessonContent = {video?:string;videoName?:string;attachment?:string;attachmentName?:string};
+export type CourseData = {content:Record<string,LessonContent>;canEdit:boolean};
+
+export const lessonArt=(id:number)=>`/lessons/aula-${id}.webp`;
