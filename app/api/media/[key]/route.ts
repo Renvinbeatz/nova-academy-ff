@@ -1,13 +1,14 @@
-import {env} from 'cloudflare:workers';
-export const dynamic='force-dynamic';
-export async function GET(request:Request,{params}:{params:Promise<{key:string}>}) {
- const {key}=await params;if(!/^(video|attachment)-[1-5]-[a-f0-9-]+$/.test(key))return new Response('Arquivo inválido',{status:400});
- const bucket=env.BUCKET;if(!bucket)return new Response('Indisponível',{status:503});
- const object=await bucket.get(key,{range:request.headers});if(!object)return new Response('Arquivo não encontrado',{status:404});
- const headers=new Headers({'Accept-Ranges':'bytes','X-Content-Type-Options':'nosniff','Cache-Control':'private, max-age=3600'});object.writeHttpMetadata(headers);headers.set('ETag',object.httpEtag);
- if(key.startsWith('attachment'))headers.set('Content-Disposition',`attachment; filename*=UTF-8''${encodeURIComponent(object.customMetadata?.name??'material')}`);
- let status=200;
- if(object.range && 'offset' in object.range && 'length' in object.range) {const {offset,length}=object.range;if(offset!==undefined&&length!==undefined){headers.set('Content-Range',`bytes ${offset}-${offset+length-1}/${object.size}`);headers.set('Content-Length',String(length));status=206;}}
- else headers.set('Content-Length',String(object.size));
- return new Response(object.body,{status,headers});
+const legacyVideos: Record<string, string> = {
+  'video-1-5f65a4ea-7765-4a9b-9688-dfb2cebfdb5a': '/videos/aula-01.mp4',
+  'video-2-b0466358-5aae-4f21-9768-e697448b5442': '/videos/aula-02.mp4',
+  'video-3-01fcd6fc-576d-431c-ac55-7020d96994a3': '/videos/aula-03.mp4',
+  'video-4-c781c054-43a5-4ffc-b250-6e85b13049db': '/videos/aula-04.mp4',
+  'video-5-8db08cba-8cd7-4744-bee7-0991cbcec3c4': '/videos/aula-05.mp4',
+};
+
+export async function GET(request: Request, {params}: {params: Promise<{key: string}>}) {
+  const {key} = await params;
+  const target = Object.hasOwn(legacyVideos, key) ? legacyVideos[key] : undefined;
+  if (!target) return new Response('Arquivo não encontrado.', {status: 404});
+  return Response.redirect(new URL(target, request.url), 307);
 }

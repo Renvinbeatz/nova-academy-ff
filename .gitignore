@@ -54,3 +54,7 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Arquivos estáticos gerados a partir dos vídeos originais
+/public/videos/
+*.tsbuildinfo
